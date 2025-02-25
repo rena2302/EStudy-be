@@ -29,6 +29,20 @@ namespace study4_be.Controllers.API
             _writingService = writingService;
             _examService = examService; 
         }
+        [HttpPost("Get_AudioExam")]
+        public async Task<ActionResult<IEnumerable<Exam>>> Get_AudioExam(OfExamIdRequest _req)
+        {
+            try
+            {
+                var examAudio = await _context.Exams.Where(u => u.ExamId == _req.examId).Select(a=>a.ExamAudio).FirstOrDefaultAsync();
+                return Json(new { status = 200, message = "Get Exam Detail By Id ", examAudio });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         [HttpGet("Get_AllExams")]
         public async Task<ActionResult<IEnumerable<Exam>>> Get_AllExams()
         {
